@@ -1,0 +1,100 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class QueueNew {
+    //реализовать класс для хранения информации о клиентах в очереди (myQueueClient)
+    // имеется возможность добавлять клиентов в очередь (myQueueAdd)
+    // получать следующего клиента в очереди (myQueueNext)
+    //получать количество клиентов в очереди (myQueueList)
+    //очищать очередь (myQueueClear)
+    static int position;
+
+    public QueueNew() {
+        ArrayList<String> myQueue = new ArrayList();
+        myQueue.add("Эмилия Коржикова 93");
+        myQueue.add("Ангелина Бубельтруд 87");
+    }
+
+    public void myQueueClient(int num) {
+        num = position;
+        String name = myQueue.get(num);
+        String[] partName = new String[3];
+        for (int i = 0; i < 3; i++) {
+            partName[i] = String.valueOf(name.split(" "));
+        }
+        System.out.println("в очереди находится: \n имя: " + partName[0] + "\n фамилия:" + partName[1] + "\n возраст:" + partName[2]);
+        System.out.println("Желаете посмотреть следующего в очереди? Y/N");
+        Scanner sc = new Scanner(System.in);
+        String inputWord = sc.nextLine();
+        if (inputWord.equals("Y") || inputWord.equals("y")) {
+            position++;
+            myQueueNext(position);
+        } else break;
+    }
+
+    public void myQueueAdd() {
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine();
+        myQueue.add(name);
+
+    }
+
+    private int myQueueNext(int num) {
+        if (position >= myQueue.size) {
+            System.out.println("достигнут конец очереди");
+            break;
+        } else {
+            myQueueClient(position);
+        }
+        return position;
+    }
+
+    public void myQueueList() {
+        System.out.println(myQueue);
+    }
+
+    public void myQueueClear() {
+        myQueue.clear();
+    }
+
+
+
+
+public class RunFirst {
+    public static void main(String[] args) {
+        QueueNew q = new QueueNew();
+        Scanner sc = new Scanner(System.in);
+        my_loop:
+        while (true) {
+            System.out.println("Для того чтобы посмотреть кто находится в очереди введите 1");
+            System.out.println("Для того чтобы добавить клиента в очередь введите 2");
+            System.out.println("Для того чтобы посмотреть количество ожидающих введите 3");
+            System.out.println("Для того чтобы всех прогнать введите 4");
+            System.out.println("Для выхода введите «exit» ");
+            String inputWord = sc.nextLine();
+            switch (inputWord) {
+                case "1": {
+                    q.myQueueList();
+                    break;
+                }
+                case "2": {
+                    q.myQueueAdd();
+                    break;
+                }
+                case "3": {
+                    q.myQueueList();
+                    break;
+                }
+                case "4": {
+                    q.myQueueClear();
+                    break;
+                }
+                case "exit": {
+                    break my_loop;
+                }
+
+            }
+        }
+    }
+}
+}
