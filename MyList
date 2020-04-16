@@ -1,0 +1,26 @@
+import java.util.ArrayList;
+
+//        создать список из чисел от 1 до 1000 и распечатать его
+//        перевернуть полученный список (получить от 1000 до 1)
+//        напечатать только четные элементы из полученного списка
+public class MyList {
+    public static void main(String[] args) {
+        int n = 1000;
+        int tmp;
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            arr.add(i+1);
+        }
+        System.out.println(arr);
+        for (int i = 0; i <n/2 ; i++) {
+            tmp = arr.get(i);
+            arr.set(i,arr.get(n-i-1));
+            arr.set(n-i-1,tmp);
+        }
+        for (int i = 0; i <n ; i=i+2) {
+            System.out.print(arr.get(i) + ", ");
+
+        }
+
+    }
+}
