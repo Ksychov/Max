@@ -1,0 +1,25 @@
+// реализовать с помощью рекурсии
+    public boolean isExists(int element) {
+        Node current = root; // начинаем всегда с корня дерева
+        boolean searchResult;
+        search(current,element);
+        searchResult = search();
+
+        return searchResult;
+    }
+
+    private boolean search(Node current, int element) {
+        boolean searchResult;
+        if (current.value == element){
+            searchResult = true;
+            return searchResult;
+        }
+
+    if (current.left != null) {            // рекурсия
+                search(current.left); // переход в левую вершину
+            }
+        if (current.right != null) {
+            search(current.right);
+        }
+        return searchResult;
+    }
