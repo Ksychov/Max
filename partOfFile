@@ -1,21 +1,7 @@
- public void order() {
-        ArrayList<Integer> ordered = new Collections.sort(getValues());
-        int sizeOrd = ordered.size() / 2;
-        add(ordered.get(sizeOrd);
-        addAsATree(sizeOrd,sizeOrd);
-    }
-
-    private void addAsATree(int i, int b) {
-        if (i > 2) {
-            add(ordered.get(i-2);
-            add(ordered.get(i-1));
-            add(ordered.get(b+(b-i-2)));
-            add(ordered.get(b+(b-i-1)));
-            i = i - 2;
-            addAsATree(i,b);
-        } else {
-            add(ordered.get(0);
-            add(ordered.get(ordered.size()-1);
+public void remove(int element) {
+        LinkedList<Integer> justForRemoveElement = new LinkedList<>(List(getValues()));
+        justForRemoveElement.remove(element);
+        root = null;
+        for (int i = 0; i < justForRemoveElement.size(); i++) {
+            add(justForRemoveElement(i));
         }
-
-    }
