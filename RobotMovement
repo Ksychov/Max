@@ -1,0 +1,148 @@
+import java.util.*;
+
+class Robot {
+    final char TRACE = '#';
+    char avatar = 37;
+    private int n; //размер поля
+    private int y; //положение по оси Y
+    private int x; // положение по оси X
+    HashMap<Integer, List<Character>> field = new HashMap<>();
+
+    public void setField() {
+        for (int i = 0; i < n; i++) {
+            field.put(i, new ArrayList<Character>());
+            for (int j = 0; j < n; j++) {
+                field.get(i).add(' ');
+            }
+        }
+    }
+
+    public void pointRobot() {
+        field.get(x).set(y, avatar);
+        printScreen();
+    }
+
+    public int movUp() {
+        field.get(x).set(y, TRACE);
+        if (x - 1 >= 0) {
+            x--;
+        }
+        field.get(x).set(y, avatar);
+        printScreen();
+        return x;
+    }
+
+    public int movDown() {
+        field.get(x).set(y, TRACE);
+        if (x + 1 < n) {
+            x++;
+        }
+        field.get(x).set(y, avatar);
+        printScreen();
+        return x;
+
+    }
+
+    public int movLeft() {
+        field.get(x).set(y, TRACE);
+        if (y - 1 >= 0) {
+            y--;
+        }
+        field.get(x).set(y, avatar);
+        printScreen();
+        return y;
+
+
+    }
+
+    public int movRight() {
+        field.get(x).set(y, TRACE);
+        if (y + 1 < n) {
+            y++;
+        }
+        field.get(x).set(y, avatar);
+        printScreen();
+        return y;
+
+    }
+
+    public void setY(int y) {
+        if ((y < 0) && (y > n - 1)) {
+            System.out.println("точка находится не на поле");
+        }
+        this.y = y;
+    }
+
+    public void setX(int x) {
+        if ((x < 0) && (x > n - 1)) {
+            System.out.println("точка находится не на поле");
+        }
+        this.x = x;
+    }
+
+    public void setN(int userN) {
+        if (userN <= 2) {
+            System.out.println("Поле для перемещения слишком маленькое");
+        } else {
+            n = userN;
+        }
+
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void printScreen() {
+        for (int i = 0; i < n; i++) {
+            System.out.println(field.get(i));
+        }
+    }
+}
+
+public class RobotMovement {
+    public static void main(String[] args) {
+        Robot planetOne = new Robot();
+        planetOne.setN(10);
+        planetOne.setField();
+        System.out.println("Здравствуй, мой маленький путешественник!");
+        System.out.println("Рады приветствовать твоего робота на скромной планете, размером " + planetOne.getN() + "X" + planetOne.getN() + " клеток");
+        System.out.println("Посети каждый уголок, возможно тебя там ждет интересное открытие (но это не точно)");
+        System.out.println("для управления используй NUM PAD: ");
+        System.out.println("вверх - 8");
+        System.out.println("вправо - 6");
+        System.out.println("вниз - 2");
+        System.out.println("влево - 4");
+        System.out.println("нажми 7 для того, чтоб покинуть планету");
+        planetOne.setX(0);
+        planetOne.setY(0);
+        planetOne.pointRobot();
+        Scanner sc = new Scanner(System.in);
+        int digit;
+        while (true) {
+            digit = sc.nextInt();
+            switch (digit) {
+                case 8:
+                    planetOne.movUp();
+                    break;
+                case 6:
+                    planetOne.movRight();
+                    break;
+                case 2:
+                    planetOne.movDown();
+                    break;
+                case 4:
+                    planetOne.movLeft();
+                    break;
+                case 7:
+                    return;
+                default:
+                    System.out.println("команда не распознана");
+                    break;
+            }
+
+        }
+
+    }
+
+}
