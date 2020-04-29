@@ -1,200 +1,57 @@
-import java.util.*;
+class Minus extends Expression {
+    String symbol = "-";
+    Expression left;
+    Expression right;
 
-class Node {
-    int value;
-    Node left;
-    Node right;
-
-    public Node(int nodeValue) {
-        value = nodeValue;
+    public Minus (Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
     }
-}
-
-class BinaryTree {
-    Node root; //корень дерева
-    int size; //количество элементов
-    int element; //значение
-    boolean searchResult = false; //результат поиска
-    List<Integer> nodeValues = new ArrayList<>(); // задали новый лист
-
-    public void add(int element) {
-        if (root == null) { // дерево пустое
-            root = new Node(element);
-            size++;
-        } else { // дерево непустое
-            Node current = root; // начинаем всегда с корня дерева
-            while (true) {
-                if (current.value == element) {
-                    System.out.println("this element already exist"); // элемент присутствует
-                    return;
-                }
-                if (current.value > element) { // в левое поддерево
-                    if (current.left == null) {
-                        current.left = new Node(element);
-                        size++;
-                        return;
-                    } else {
-                        current = current.left; // переход в левую вершину
-                    }
-                } else { // в правое поддерево
-                    if (current.right == null) {
-                        current.right = new Node(element);
-                        size++;
-                        return;
-                    } else {
-                        current = current.right;
-                    }
-                }
-            }
-        }
-    }
-
-    public List<Integer> getValues() {
-        nodeValues.clear();
-        walk(root, nodeValues);
-        return nodeValues;
-    }
-
-    private void walk(Node current, List<Integer> values) {
-//        System.out.println("Enter " + current.value);
-        values.add(current.value); //добавляем в лист текущее значение
-        if (current.left != null) {
-            // рекурсия
-            walk(current.left, values); // переход в левую вершину
-        }
-        if (current.right != null) {
-            walk(current.right, values);
-        }
-//        System.out.println("Exit " + current.value);
-    }
-
-    // реализовать с помощью рекурсии
-    public boolean isExists(int element) {
-        this.element = element;
-        Node current = root; // начинаем всегда с корня дерева
-        boolean searchResult;
-        searchResult = search(current);
-
-        return searchResult;
-    }
-
-    private boolean search(Node current) {
-
-        if (current.value == element) {
-            searchResult = true;
-            return searchResult;
-        } else {
-
-            if ((current.left != null) && (current.value > element) && (searchResult == false)) {            // рекурсия
-                search(current.left); // переход в левую вершину
-            }
-            if ((current.right != null) && (current.value < element) && (searchResult == false)) {
-                search(current.right);
-            }
-        }
-        return searchResult;
-    }
-
-    /****************/
-    // найти следующее по величине число в дереве
-    public int findNext(int element) {
-        this.element = element;
-        Node current = root; // еще раз начинаем с корня дерева
-        int nextElement = 0;
-        boolean trigger = false;
-        if (isExists(element)) {
-            while (true) {
-                if (current.value > element) {
-                    nextElement = current.value;
-                    current = current.left;
-                    trigger = true;
-                }
-                if (current.value < element) {
-                    current = current.right;
-                }
-                if (current.value == element) {
-                    if (current.right != null) {
-                        current = current.right;
-                        nextElement = current.value;
-                        return nextElement;
-                    } else if (trigger == false) {
-                        System.out.println("the element below is largest in this binary tree");
-                        return element;
-                    } else
-                        return nextElement;
-
-
-                }
-
-            }
-        }
-        System.out.println("element you looking for doesn't exist in this binary tree");
-        return element;
-    }
-
-
-    public void remove(int element) {
-        LinkedList<Integer> justForRemoveElement = new LinkedList<>(List(getValues()));
-        justForRemoveElement.remove(element);
-        root = null;
-        for (int i = 0; i < justForRemoveElement.size(); i++) {
-            add(justForRemoveElement(i));
-        }
-
-
-    }
-
-    public void order() {
-        getValues();
-        Collections.sort(nodeValues);
-        root = null;
-        int sizeOrd = nodeValues.size() / 2;
-
-        add(nodeValues.get(sizeOrd));
-        addAsATree(sizeOrd, sizeOrd);
-    }
-
-    private void addAsATree(int i, int b) {
-        if (i > 2) {
-            add(nodeValues.get(i - 2));
-            add(nodeValues.get(i - 1));
-            add(nodeValues.get(b + (b - (i - 2))));
-            add(nodeValues.get(b + (b - (i - 1))));
-            i = i - 2;
-            addAsATree(i, b);
-        } else {
-            add(nodeValues.get(0));
-            add(nodeValues.get(nodeValues.size() - 1));
-        }
-
+    @Override
+    public double calculate(Map<String, Double> variableToValue) {
+        double leftValue = left.calculate(variableToValue);
+        double rightValue = right.calculate(variableToValue);
+        return leftValue - rightValue;
     }
 
 }
 
-public class BinarySearchTreeByMe {
-    public static void main(String[] args) {
-        BinaryTree searchTree = new BinaryTree();
-//        searchTree.add(10);
-//        searchTree.add(7);
-//        searchTree.add(12);
-//        searchTree.add(8);
-//        searchTree.add(6);
-//        searchTree.add(11);
+class Multiply extends Expression {
+    String symbol = "*";
+    Expression left;
+    Expression right;
 
-        searchTree.add(12);
-        searchTree.add(11);
-        searchTree.add(10);
-        searchTree.add(8);
-        searchTree.add(7);
-        searchTree.add(16);
-        searchTree.add(3);
-        System.out.println(searchTree.isExists(12));
-
-        System.out.println(searchTree.getValues());
-        searchTree.order();
-        System.out.println(searchTree.getValues());
-        System.out.println(searchTree.findNext(3));
-
-        System.out.println();
+    public Multiply (Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
     }
+    @Override
+    public double calculate(Map<String, Double> variableToValue) {
+        double leftValue = left.calculate(variableToValue);
+        double rightValue = right.calculate(variableToValue);
+        return leftValue * rightValue;
+    }
+
+}
+
+class Division extends Expression{
+    String symbol = "/";
+    Expression left;
+    Expression right;
+
+    public Division (Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+    @Override
+    public double calculate(Map<String, Double> variableToValue) {
+        double leftValue = left.calculate(variableToValue);
+        double rightValue = right.calculate(variableToValue);
+        if (rightValue == 0) {
+            throw new ArithmeticException("деление на ноль!");
+            break;
+        }
+        return leftValue / rightValue;
+    }
+
 }
